@@ -1,0 +1,28 @@
+---
+# vars file for deploy-mautic
+organization: "{{ xayma_mautic.organization }}"
+instancename: "{{ xayma_mautic.instancename }}"
+version: "{{ xayma_mautic.version }}"
+domain: "{{ instancename }}"
+_name: "{{ xayma_mautic.name }}"
+variation: "{{ xayma_mautic.variation }}"
+fullinstancename_web: "{{ organization }}_{{ instancename }}_mautic{{ version|default(xayma_mautic.version)|replace('.', '_') }}_web"
+fullinstancename_worker: "{{ organization }}_{{ instancename }}_mautic{{ version|default(xayma_mautic.version)|replace('.', '_') }}_worker"
+fullinstancename_cron: "{{ organization }}_{{ instancename }}_mautic{{ version|default(xayma_mautic.version)|replace('.', '_') }}_cron"
+fullinstancename_nginx: "{{ organization }}_{{ instancename }}_nginx"
+fullinstancename_db: "{{organization}}_{{instancename}}_mysql8"
+defaultdomain: "{{platform_domain}}"
+
+domains:
+    - "{{ domain }}"
+    - "{{instancename}}.{{ defaultdomain }}"
+
+xayma_mautic_paths:
+    instance:   "{{services_path}}/{{organization}}/{{instancename}}_mautic_{{version| replace('.', '_')}}"
+    config:     "{{services_path}}/{{organization}}/{{instancename}}_mautic_{{version| replace('.', '_')}}/config"
+    logs:       "{{services_path}}/{{organization}}/{{instancename}}_mautic_{{version| replace('.', '_')}}/logs"
+    files:      "{{services_path}}/{{organization}}/{{instancename}}_mautic_{{version| replace('.', '_')}}/files"
+    images:     "{{services_path}}/{{organization}}/{{instancename}}_mautic_{{version| replace('.', '_')}}/images"
+    cron:       "{{services_path}}/{{organization}}/{{instancename}}_mautic_{{version| replace('.', '_')}}/cron"
+    nginxconf:  "{{services_path}}/{{organization}}/{{instancename}}_mautic_{{version| replace('.', '_')}}/nginx.conf"
+  

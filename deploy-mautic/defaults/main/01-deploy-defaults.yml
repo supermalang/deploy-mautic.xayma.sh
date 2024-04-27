@@ -1,0 +1,8 @@
+---
+# defaults file for deploy-mautic.xayma.sh
+xayma_mautic:
+    name: mautic/mautic
+    organization: "xayma"
+    instancename: "mauticapp"
+    version: "5"
+    variation: "fpm"

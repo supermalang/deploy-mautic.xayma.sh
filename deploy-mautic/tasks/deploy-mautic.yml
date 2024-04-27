@@ -1,0 +1,60 @@
+---
+
+- name: Creating the mautic instance directory
+  file:
+    path: "{{ xayma_mautic_paths.instance }}"
+    state: directory
+    mode: '0755'
+
+- name: Creating the mautic instance config directory
+  file:
+    path: "{{ xayma_mautic_paths.config }}"
+    state: directory
+    mode: '0755'
+
+- name: Creating the logs folder
+  file:
+    path: "{{ xayma_mautic_paths.logs }}"
+    state: directory
+    mode: '0755'
+
+- name: Creating the files folder
+  file:
+    path: "{{ xayma_mautic_paths.files }}"
+    state: directory
+    mode: '0755'
+
+- name: Creating the images folder
+  file:
+    path: "{{ xayma_mautic_paths.images }}"
+    state: directory
+    mode: '0755'
+
+- name: Creating the cron folder
+  file:
+    path: "{{ xayma_mautic_paths.cron }}"
+    state: directory
+    mode: '0755'
+
+- name: Creating Docker compose file
+  template:
+    src: docker-compose.yml.j2
+    dest: "{{ xayma_mautic_paths.instance }}/docker-compose.yml"
+    mode: '0644'
+
+- name: Creating Mautic Env file
+  template:
+    src: mautic_env.j2
+    dest: "{{ xayma_mautic_paths.instance }}/mautic_env"
+    mode: '0644'
+
+- name: Copying Config Files
+  copy:
+    src: "{{ item }}"
+    dest: "{{ xayma_mautic_paths.instance }}/{{ item | basename }}"
+  loop:
+    - nginx.conf
+ 
+- name: Deploying the mautic instance
+  docker_compose:
+    project_src: "{{ xayma_mautic_paths.instance }}"

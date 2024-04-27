@@ -1,0 +1,14 @@
+---
+- name: Creating Docker compose file if it does not exist
+  template:
+    src: docker-compose.yml.j2
+    force: no
+    dest: "{{ xayma_mautic_paths.instance }}/docker-compose.yml"
+    mode: '0644'
+
+
+- name: Starting the mautic instance
+  docker_compose:
+    project_src: "{{ xayma_mautic_paths.instance }}"
+    state: present
+  when: instancename != xayma_mautic.instancename # We make sure the user has provided an instance name

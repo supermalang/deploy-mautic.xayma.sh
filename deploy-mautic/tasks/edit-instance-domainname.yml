@@ -1,0 +1,16 @@
+---
+- name: Updating the Docker-Compose file to add the new domain name
+  template:
+    src: docker-compose.yml.j2
+    force: yes
+    dest: "{{ xayma_mautic_paths.instance }}/docker-compose.yml"
+    mode: '0644'
+  when: instancename != xayma_mautic.instancename and ( organization != "" and organization != xayma_mautic.organization ) and instancename != domain  
+
+- name: Restarting mautic instance
+  docker_compose:
+    project_src: "{{ xayma_mautic_paths.instance }}"
+    state: present
+    restarted: true
+  when: instancename != xayma_mautic.instancename and ( organization != "" and organization != xayma_mautic.organization ) and instancename != domain  
+  
